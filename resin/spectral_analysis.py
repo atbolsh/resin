@@ -2,6 +2,7 @@
 # modified by Kyler Brown 2017
 from __future__ import division
 import numpy as np
+from yin import yin
 
 # The following code attempts to grab the FFT
 # from scipy, if available.  Otherwise, the FFT from
@@ -149,6 +150,10 @@ class Spectra(BaseSpectra):
         amp, amp_time = amplitude(pxx, freqs, self._psd_times, noise_power,
                                   noise_ratio)
         return amp, amp_time
+    
+    def freq_yin(self, threshold=0.5, freq_range=None):
+        pxx, freqs, times = self.power(freq_range=freq_range)
+        return yin(freqs, pxx), times
 
     def wiener_entropy(self, freq_range=None):
         pxx, freqs, times = self.power(freq_range)
